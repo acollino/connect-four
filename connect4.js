@@ -18,7 +18,6 @@ let gameOver = false;
 
 function makeBoard() {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
-  //board.fill(Array(WIDTH));
   for (let y = 0; y < HEIGHT; y++) {
     board[y] = Array(WIDTH);
   }
@@ -33,33 +32,22 @@ function makeHtmlBoard() {
   let top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
-  // for (let x = 0; x < WIDTH; x++) {
-  //   let headCell = document.createElement("td");
-  //   headCell.setAttribute("id", x);
-  //   top.append(headCell);
-  // }
-  fillCells(top, -1);
+  fillCells(top);
   htmlBoard.append(top);
 
   // TODO: add comment for this code
   for (let y = 0; y < HEIGHT; y++) {
     const row = document.createElement("tr");
     fillCells(row, y);
-    // for (var x = 0; x < WIDTH; x++) {
-    //   const cell = document.createElement("td");
-    //   cell.setAttribute("id", `${y}-${x}`);
-    //   row.append(cell);
-    // }
     htmlBoard.append(row);
   }
 }
 
-function fillCells(row, rowIndex) {
+function fillCells(row, rowIndex = -1) {
   for (let cellIndex = 0; cellIndex < WIDTH; cellIndex++) {
     let cell = document.createElement("td");
     cell.setAttribute("id", `${rowIndex}-${cellIndex}`);
     cell.setAttribute("data-x", `${cellIndex}`);
-    cell.setAttribute("data-y", `${rowIndex}`);
     row.append(cell);
   }
 }
@@ -100,8 +88,8 @@ function handleClick(evt) {
     return;
   }
 
-  // get x from ID of clicked cell
-  //let x = +evt.target.id;
+  // get x from data-attribute of clicked cell
+  // note: edited from original version, where x came from the ID
   let x = evt.target.getAttribute("data-x");
 
   // get next spot in column (if none, ignore click)
@@ -122,7 +110,7 @@ function handleClick(evt) {
 
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
-  if (checkForTie()) {
+  if (y === 0 && checkForTie()) {
     endGame(`Tie Game!`);
   }
 
@@ -135,9 +123,17 @@ function togglePlayerNumber() {
   currPlayer = currPlayer === 1 ? 2 : 1;
 }
 
+/* This method of checking for a tie was used to satisfy the given constraints:
+  - The board nested array was to be initialized as an empty array, as per:
+      'set "board" to empty HEIGHT x WIDTH matrix array'
+  - The checkForTie function should use the .every() method of arrays, as per:
+      'add a check for “is the entire board filled” 
+      [hint: the JS every method on arrays would be especially nice here!]'
+  - The .every() method does not execute on empty elements
+*/
 function checkForTie() {
   return board.every((row) => {
-    row.every((cell) => cell !== null);
+    return row.join("").length === WIDTH;
   });
 }
 
@@ -163,31 +159,40 @@ function checkForWin() {
 
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
+      //horiz groups 4 cells horizontally to the right
       let horiz = [
         [y, x],
         [y, x + 1],
         [y, x + 2],
         [y, x + 3],
       ];
+      //vert groups 4 cells vertically, moving down the column
       let vert = [
         [y, x],
         [y + 1, x],
         [y + 2, x],
         [y + 3, x],
       ];
+      //diagDR groups 4 cells diagonally, moving down and right
       let diagDR = [
         [y, x],
         [y + 1, x + 1],
         [y + 2, x + 2],
         [y + 3, x + 3],
       ];
+      //diagDL groups 4 cells diagonally, moving down and left
       let diagDL = [
         [y, x],
         [y + 1, x - 1],
         [y + 2, x - 2],
         [y + 3, x - 3],
       ];
-
+      /* since _win checks that the cell groups are legal coordinates,
+      it ultimately doesn't matter that some of the group x,y values 
+      extend beyond the board - those will be ruled out. Instead,
+      if any cell groups are all placed by the same active player, 
+      that player wins.
+      */
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
         return true;
       }
