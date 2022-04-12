@@ -54,6 +54,8 @@ function fillCells(row, rowIndex) {
   for (let cellIndex = 0; cellIndex < WIDTH; cellIndex++) {
     let cell = document.createElement("td");
     cell.setAttribute("id", `${rowIndex}-${cellIndex}`);
+    cell.setAttribute("data-x", `${cellIndex}`);
+    cell.setAttribute("data-y", `${rowIndex}`);
     row.append(cell);
   }
 }
@@ -69,6 +71,9 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
+  let divPiece = document.createElement("div");
+  divPiece.classList.add("piece", `player${currPlayer}`);
+  document.getElementById(`${y}-${x}`).append(divPiece);
 }
 
 /** endGame: announce game end */
@@ -81,7 +86,8 @@ function endGame(msg) {
 
 function handleClick(evt) {
   // get x from ID of clicked cell
-  let x = +evt.target.id;
+  //let x = +evt.target.id;
+  let x = evt.target.getAttribute("data-x");
 
   // get next spot in column (if none, ignore click)
   let y = findSpotForCol(x);
