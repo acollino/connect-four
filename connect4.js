@@ -24,28 +24,37 @@ function makeBoard() {
 
 function makeHtmlBoard() {
   // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
-
+  let htmlBoard = document.querySelector("#board");
   // TODO: add comment for this code
   let top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
-
-  for (let x = 0; x < WIDTH; x++) {
-    let headCell = document.createElement("td");
-    headCell.setAttribute("id", x);
-    top.append(headCell);
-  }
+  // for (let x = 0; x < WIDTH; x++) {
+  //   let headCell = document.createElement("td");
+  //   headCell.setAttribute("id", x);
+  //   top.append(headCell);
+  // }
+  fillCells(top, -1);
   htmlBoard.append(top);
 
   // TODO: add comment for this code
   for (let y = 0; y < HEIGHT; y++) {
     const row = document.createElement("tr");
-    for (var x = 0; x < WIDTH; x++) {
-      const cell = document.createElement("td");
-      cell.setAttribute("id", `${y}-${x}`);
-      row.append(cell);
-    }
+    fillCells(row, y);
+    // for (var x = 0; x < WIDTH; x++) {
+    //   const cell = document.createElement("td");
+    //   cell.setAttribute("id", `${y}-${x}`);
+    //   row.append(cell);
+    // }
     htmlBoard.append(row);
+  }
+}
+
+function fillCells(row, rowIndex) {
+  for (let cellIndex = 0; cellIndex < WIDTH; cellIndex++) {
+    let cell = document.createElement("td");
+    cell.setAttribute("id", `${rowIndex}-${cellIndex}`);
+    row.append(cell);
   }
 }
 
