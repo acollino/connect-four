@@ -107,6 +107,9 @@ function handleClick(evt) {
 
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
+  if (board.every(cell => cell !== null)) {
+    return endGame(`Tie Game!`);
+  }
 
   // switch players
   // TODO: switch currPlayer 1 <-> 2
@@ -114,6 +117,7 @@ function handleClick(evt) {
 }
 
 function togglePlayerNumber() {
+  console.log("toggle");
   if (currPlayer === 1) {
     currPlayer = 2;
   }
