@@ -120,11 +120,7 @@ function handleClick(evt) {
 }
 
 function togglePlayerNumber() {
-  if (currPlayer === 1) {
-    currPlayer = 2;
-  } else {
-    currPlayer = 1;
-  }
+  currPlayer = currPlayer === 1 ? 2 : 1;
 }
 
 function checkForTie() {
