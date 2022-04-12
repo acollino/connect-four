@@ -67,7 +67,12 @@ function fillCells(row, rowIndex) {
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
-  return 0;
+  for (let rowIndex = HEIGHT - 1; rowIndex >= 0; rowIndex--){
+    if (board[rowIndex][x] == null) {
+      return rowIndex;
+    }
+  }
+  return null;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
