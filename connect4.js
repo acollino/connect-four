@@ -10,6 +10,7 @@ const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
 const board = Array(HEIGHT); // array of rows, each row is array of cells  (board[y][x])
+let gameOver = false;
 
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
@@ -88,11 +89,17 @@ function placeInTable(y, x) {
 
 function endGame(msg) {
   // TODO: pop up alert message
+  gameOver = true;
+  setTimeout(() => { alert(msg) }, 50);
 }
 
 /** handleClick: handle click of column top to play piece */
 
 function handleClick(evt) {
+  if (gameOver) {
+    return;
+  }
+
   // get x from ID of clicked cell
   //let x = +evt.target.id;
   let x = evt.target.getAttribute("data-x");
@@ -110,13 +117,13 @@ function handleClick(evt) {
 
   // check for win
   if (checkForWin()) {
-    return endGame(`Player ${currPlayer} won!`);
+    endGame(`Player ${currPlayer} won!`);
   }
 
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
   if (checkForTie()) {
-    return endGame(`Tie Game!`);
+    endGame(`Tie Game!`);
   }
 
   // switch players
