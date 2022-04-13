@@ -12,6 +12,9 @@ let currPlayer = 1; // active player: 1 or 2
 const board = Array(HEIGHT); // array of rows, each row is array of cells  (board[y][x])
 let gameOver = false;
 
+const resetButton = document.querySelector("#reset");
+const playerDisplay = document.querySelector("#player-display");
+
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
@@ -101,6 +104,9 @@ function handleClick(evt) {
   // get x from data-attribute of clicked cell
   // note: edited from original version, where x came from the ID
   let x = evt.target.getAttribute("data-x");
+  if (x === null) {
+    return;
+  }
 
   // get next spot in column (if none, ignore click)
   let y = findSpotForCol(x);
@@ -115,7 +121,7 @@ function handleClick(evt) {
 
   // check for win
   if (checkForWin()) {
-    endGame(`Player ${currPlayer} won!`);
+    endGame(`Player ${currPlayer} wins!`);
   }
 
   // check for tie
@@ -130,7 +136,15 @@ function handleClick(evt) {
 }
 
 function togglePlayerNumber() {
-  currPlayer = currPlayer === 1 ? 2 : 1;
+  if (gameOver) {
+    setTimeout(() => {
+      playerDisplay.textContent = (`None!\nPlayer ${currPlayer} wins!`);
+    }, 500);
+  }
+  else {
+    currPlayer = currPlayer === 1 ? 2 : 1;
+    playerDisplay.textContent = "Player "+currPlayer;
+  }
 }
 
 /* This method of checking for a tie was used to satisfy the given constraints:
@@ -209,6 +223,25 @@ function checkForWin() {
     }
   }
 }
+
+function resetGame() {
+  gameOver = false;
+  resetTurns();
+  makeBoard();
+  clearPieces();
+}
+
+function resetTurns(){
+  currPlayer = 2;
+  togglePlayerNumber();
+}
+
+function clearPieces() {
+  let pieces = document.querySelectorAll(".piece");
+  pieces.forEach((piece) => piece.remove());
+}
+
+resetButton.addEventListener("click", resetGame);
 
 makeBoard();
 makeHtmlBoard();

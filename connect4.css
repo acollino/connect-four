@@ -1,5 +1,8 @@
-/* game board table */
-.foreground{
+html {
+  background-color: rgb(61, 120, 120);
+}
+
+.foreground {
   display: block;
   position: relative;
   width: 50px;
@@ -16,6 +19,35 @@
 
 #board {
   background-color: #1c2d5c;
+  margin: 40px auto;
+}
+
+.page-text {
+  text-align: center;
+  font-family: "Franklin Gothic Book";
+  white-space: pre;
+}
+
+@font-face {
+  font-family: "Franklin Gothic Book";
+  src: url(/assets/FRABK.TTF);
+}
+
+#reset {
+  display: block;
+  margin: 20px auto;
+  padding: 5px 8px;
+  color: antiquewhite;
+  background-color: darkred;
+  border-radius: 10px;
+  border-style: none;
+}
+#reset:hover {
+  background-color: rgb(142, 33, 33);
+}
+#reset:active {
+  background-color: rgb(73, 13, 13);
+  color: rgb(183, 165, 140);
 }
 
 /* pieces are div within game table cells: draw as colored circles */
@@ -31,12 +63,15 @@
   top: 1px;
   animation-duration: 0.5s;
   animation-name: fall;
-  /* z-index: 1; */
 }
 
 @keyframes fall {
-  from {top: -500%;}
-  to {top: 1px;} 
+  from {
+    top: -500%;
+  }
+  to {
+    top: 1px;
+  }
 }
 
 /* TODO: make pieces red/blue,  depending on player 1/2 piece */
