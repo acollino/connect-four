@@ -1,10 +1,21 @@
 /* game board table */
+.foreground{
+  display: block;
+  position: relative;
+  width: 50px;
+  z-index: 1;
+  box-shadow: inset 0px 0px 20px 4px black;
+}
 
 #board td {
   width: 50px;
   height: 50px;
-  border: solid 1px #666;
+  border: solid 1px #1c2d5c;
   position: relative;
+}
+
+#board {
+  background-color: #1c2d5c;
 }
 
 /* pieces are div within game table cells: draw as colored circles */
@@ -20,6 +31,7 @@
   top: 1px;
   animation-duration: 0.5s;
   animation-name: fall;
+  /* z-index: 1; */
 }
 
 @keyframes fall {

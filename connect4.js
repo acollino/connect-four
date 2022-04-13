@@ -49,7 +49,17 @@ function fillCells(row, rowIndex = -1) {
     cell.setAttribute("id", `${rowIndex}-${cellIndex}`);
     cell.setAttribute("data-x", `${cellIndex}`);
     row.append(cell);
+    if (rowIndex >= 0) {
+      addForeground(cell);
+    }
   }
+}
+
+function addForeground(cell) {
+  let foreground = document.createElement("img");
+  foreground.setAttribute("src", "assets/connect-four-square-large.png");
+  foreground.classList.add("foreground");
+  cell.append(foreground);
 }
 
 /** findSpotForCol: given column x, return top empty y (null if filled) */
