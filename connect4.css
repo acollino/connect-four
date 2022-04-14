@@ -30,7 +30,7 @@ html {
 
 @font-face {
   font-family: "Franklin Gothic Book";
-  src: url(/assets/FRABK.TTF);
+  src: url(../connect-four/assets/FRABK.TTF);
 }
 
 #reset {
