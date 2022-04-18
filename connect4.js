@@ -91,6 +91,7 @@ function placeInTable(y, x) {
 function endGame(msg) {
   // TODO: pop up alert message
   gameOver = true;
+  togglePlayerNumber(msg);
   setTimeout(() => { alert(msg) }, 500);
 }
 
@@ -121,13 +122,13 @@ function handleClick(evt) {
 
   // check for win
   if (checkForWin()) {
-    endGame(`Player ${currPlayer} wins!`);
+    return endGame(`Player ${currPlayer} wins!`);
   }
 
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
   if (y === 0 && checkForTie()) {
-    endGame(`Tie Game!`);
+    return endGame(`Tie Game!`);
   }
 
   // switch players
@@ -135,16 +136,21 @@ function handleClick(evt) {
   togglePlayerNumber();
 }
 
-function togglePlayerNumber() {
+function togglePlayerNumber(msg) {
   if (gameOver) {
-    setTimeout(() => {
-      playerDisplay.textContent = (`None!\nPlayer ${currPlayer} wins!`);
-    }, 500);
+    playerDisplay.textContent = "None!\n";
+    delayPlayerDisplayMessage(msg);
   }
   else {
     currPlayer = currPlayer === 1 ? 2 : 1;
     playerDisplay.textContent = "Player "+currPlayer;
   }
+}
+
+function delayPlayerDisplayMessage(msg) {
+  setTimeout(() => {
+    playerDisplay.textContent += (msg);
+  }, 490);
 }
 
 /* This method of checking for a tie was used to satisfy the given constraints:
